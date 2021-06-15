@@ -79,7 +79,7 @@ async function signin(page, { username, password, remember }) {
 async function submit(page, { prob }) {
     if (!prob) return false;
     await page.goto(`https://tioj.ck.tp.edu.tw/problems/${prob}/submissions/new`);
-    await page.screenshot({ path: "./screen/submit.png" });
+    if (SHOT) await page.screenshot({ path: "./screen/submit.png" });
 
     let { exists, code } = await get_code(prob);
 
