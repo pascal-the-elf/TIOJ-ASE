@@ -33,10 +33,10 @@ async function main() {
 
 function cur_user() {
     return {
-        email: "jqbpzk@ioinformatics.org",
-        username: "ioi.jqbpzk",
-        nickname: "JQBPZK",
-        password: "kzpbqj",
+        email: "test@ioinformatics.org",
+        username: "tester_101",
+        nickname: "Tester 101",
+        password: "Tester 101",
         name: "IOI.JQBPZK",
         school: "IOI <ioinformatics.org>",
         graduation: "101",
