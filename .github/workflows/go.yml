@@ -1,9 +1,18 @@
 name: Go CI
 on:
   workflow_dispatch:
+    inputs:
+      from:
+        description: "From"
+        required: true
+        default: "1001"
+      to:
+        description: "To"
+        required: true
+        default: "1001"
 jobs:
-  release:
-    name: Build
+  go:
+    name: Go
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -14,8 +23,8 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: "14"
       - name: Go
         run: |
           npm install
-          npm run go
+          "node index.js ${{ github.event.inputs.from }} ${{ github.event.inputs.to }}"

@@ -1,11 +1,20 @@
 import puppeteer from "puppeteer";
 import fs from "fs";
+import { argv } from "process";
 
 const SHOT = false;
 
 main();
 
 async function main() {
+    const inputs = argv.slice(2);
+    let start = 1001,
+        end = 1001;
+    if (inputs.length == 2) {
+        start = inputs[0];
+        end = inputs[1];
+    }
+
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
@@ -17,7 +26,7 @@ async function main() {
     await sleep(3000);
     if (SHOT) await page.screenshot({ path: "./screen/signedin.png" });
 
-    for (let i = 1002; i <= 1050; i++) {
+    for (let i = start; i <= end; i++) {
         let result = await submit(page, { prob: i });
         if (result) {
             console.log("Prob." + i + " Submitted.");
