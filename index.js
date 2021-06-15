@@ -3,6 +3,7 @@ import fs from "fs";
 import { argv } from "process";
 
 const SHOT = false;
+const SHOW_CODE = false;
 
 main();
 
@@ -14,24 +15,35 @@ async function main() {
         start = inputs[0];
         end = inputs[1];
     }
+    console.log(`Ok, I will try to solve prob. ${start} to prob. ${end}`);
 
     const browser = await puppeteer.launch();
+    console.log(`Browser Lauched.`);
     const page = await browser.newPage();
+    console.log(`Page Opened.`);
 
     let user = cur_user() || gen_user();
-    console.log("User", user); /*
+    console.log("User Data: \n", user); /*
     await signup(page, user);
     await sleep(3000);*/
     await signin(page, user);
+    console.log(`Signed In.`);
     await sleep(3000);
     if (SHOT) await page.screenshot({ path: "./screen/signedin.png" });
 
     for (let i = start; i <= end; i++) {
+        console.log(`Trying to solve prob. ${i}...`);
         let result = await submit(page, { prob: i });
         if (result) {
-            console.log("Prob." + i + " Submitted.");
-            await sleep((6 + Math.random() * 6) * 60 * 1000);
-        } else await sleep(10 * 1000);
+            console.log(`Prob. ${i} Submitted. :)`);
+            let span = (8 + Math.random() * 6) * 60 * 1000;
+            console.log(`Wait for ${(span / 1000).toFixed(1)} seconds before next operation.`);
+            await sleep(span);
+        } else {
+            console.log(`Sorry, I cannot find solution of prob. ${i} :(`);
+            console.log(`Wait for 10 seconds before next operation.`);
+            await sleep(10 * 1000);
+        }
     }
 
     await page.goto("https://tioj.ck.tp.edu.tw/submissions");
@@ -94,7 +106,7 @@ async function submit(page, { prob }) {
 
     if (!exists) return false;
 
-    console.log(`Code of Prob.${prob}: \n`, code, "\n");
+    if (SHOW_CODE) console.log(`Code of Prob.${prob}: \n`, code, "\n");
 
     await page.$eval("textarea", (el, value) => (el.value = value), code);
     await page.$eval("input[type=submit]", (el) => el.click());
@@ -110,7 +122,7 @@ async function get_code(prob) {
     return {
         exists: true,
         code: code.split("\n").reduce((a, b) => {
-            return a + "\n".repeat(Math.floor(1 + Math.random() * 3)) + "    ".repeat(Math.floor(Math.random() * 2)) + b;
+            return a + "\n".repeat(Math.floor(1 + Math.random() * 3)) + "    ".repeat(Math.floor(Math.random() * 5)) + b.trim();
         }, ""),
     };
 }

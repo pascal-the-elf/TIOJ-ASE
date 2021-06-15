@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: "14"
-      - name: Go
-        run: |
-          npm install
-          "node index.js ${{ github.event.inputs.from }} ${{ github.event.inputs.to }}"
+      - name: Install Packages
+        run: npm install
+      - name: Run
+        run: node index.js ${{ github.event.inputs.from }} ${{ github.event.inputs.to }}
