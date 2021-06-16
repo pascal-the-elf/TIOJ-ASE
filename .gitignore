@@ -78,3 +78,5 @@ typings/
 worker/
 
 screen/
+.DS_Store
+solutions/.DS_Store

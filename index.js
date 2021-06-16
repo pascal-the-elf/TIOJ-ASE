@@ -127,6 +127,17 @@ async function get_code(prob) {
     };
 }
 
+async function check_database() {
+    const folder = "./solutions/";
+    let filenames = fs.readdirSync(folder);
+    let count = 0;
+    for(let i = 1001; i <= 3000; i++) {
+        let checker = filenames.filter((filename) => filename.includes(String(i)));
+        if(checker) count++;
+    }
+    return count;
+}
+
 function sleep(ms = 1000) {
     return new Promise((r) => {
         setTimeout(r, ms);
