@@ -12,55 +12,66 @@ string s;
 vector<string> t;
 set<string> st;
 
-vector<int> match(string a, string b){ //find b in a
-    //cout << "Finding " << b << " in " << a << endl;
+vector<int> match(string a, string b)
+{ 
     string st = b + "$" + a;
     vector<int> fail(b.length() + a.length() + 1), matches;
     fail[0] = -1;
     int q;
-    //cout << st << endl;
-    for(int i = 1; i < st.length(); i++){
+    for (int i = 1; i < st.length(); i++)
+    {
         q = fail[i - 1];
-        while(q >= 0 && st[q + 1] != st[i]) q = fail[q];
-        if(st[q + 1] == st[i]) q++;
+        while (q >= 0 && st[q + 1] != st[i])
+            q = fail[q];
+        if (st[q + 1] == st[i])
+            q++;
         fail[i] = q;
-        //cout << fail[i] << " ";
+
     }
-    //cout << endl;
-    for(int i = b.length() * 2; i < st.length(); i++){
-        if(fail[i] == b.length() - 1) matches.push_back(i - b.length() * 2);
+
+    for (int i = b.length() * 2; i < st.length(); i++)
+    {
+        if (fail[i] == b.length() - 1)
+            matches.push_back(i - b.length() * 2);
     }
-    //cout << "Found at positions ";
-    //for(int u : matches) cout << u << " "; cout << endl;
     return matches;
 }
 
-void dfs(string s){
-    if(s.length() < ans) ans = s.length();
+void dfs(string s)
+{
+    if (s.length() < ans)
+        ans = s.length();
     string ns;
-    for(string str : t){
-        if(s.length() < str.length()) continue;
+    for (int i = 0; i < t.size(); i++)
+    {
+        string str = t[i];
+        if (s.length() < str.length())
+            continue;
         vector<int> matches = match(s, str);
-        if(!matches.size()) continue;
+        if (!matches.size())
+            continue;
         int pos = matches[0];
         ns = s.substr(0, pos) + s.substr(pos + str.length(), s.length());
-        //cout << "s = " << s << " str = " << str << ", ns = " << ns << endl;
-        if(!st.count(ns)){
+        if (!st.count(ns))
+        {
             st.insert(ns);
             dfs(ns);
         }
     }
 }
 
-int main(){
-    //match("ababab", "ab");
+int main()
+{
     ericxiao;
-    while(cin >> n){
-        if(!n) return 0;
+    while (cin >> n)
+    {
+        if (!n)
+            return 0;
         ans = INF;
         cin >> s;
         t.resize(n);
-        for(int i = 0; i < n; i++){
+        for (int i = 0; i < n; i++)
+        {
             cin >> t[i];
         }
         st = set<string>();
