@@ -3,7 +3,7 @@ import fs from "fs";
 import { argv } from "process";
 
 const SHOT = false;
-const SHOW_CODE = false;
+const SHOW_CODE = true;
 
 main();
 
@@ -118,7 +118,7 @@ async function get_code(prob) {
     let filenames = fs.readdirSync(folder);
     let checker = filenames.filter((filename) => filename.includes(String(prob)));
     if (!checker.length) return { exists: false, code: null };
-    let code = String(fs.readFileSync(folder + checker[0]));
+    let code = String(fs.readFileSync(folder + checker[0])).replace(/\/\*[\s\S]*?\*\/|([^\\:]|^)\/\/.*$/gm, "");
     return {
         exists: true,
         code: code.split("\n").reduce((a, b) => {
@@ -131,9 +131,9 @@ async function check_database() {
     const folder = "./solutions/";
     let filenames = fs.readdirSync(folder);
     let count = 0;
-    for(let i = 1001; i <= 3000; i++) {
+    for (let i = 1001; i <= 3000; i++) {
         let checker = filenames.filter((filename) => filename.includes(String(i)));
-        if(checker) count++;
+        if (checker) count++;
     }
     return count;
 }
