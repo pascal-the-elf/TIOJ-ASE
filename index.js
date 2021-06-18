@@ -17,7 +17,7 @@ async function main() {
     }
     console.log(`Ok, I will try to solve prob. ${start} to prob. ${end}`);
 
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch();
     console.log(`Browser Lauched.`);
     const page = await browser.newPage();
     console.log(`Page Opened.`);
@@ -90,7 +90,7 @@ async function signup(page, { email, username, nickname, password, name, school,
 }
 
 async function signin(page, { username, password, remember }) {
-    await page.goto("https://tioj.ck.tp.edu.tw/users/sign_in");
+    await page.goto("https://tioj.ck.tp.edu.tw/users/sign_in", {waitUntil: "load"});
     await page.$eval("#user_username", (el, value) => (el.value = value), username);
     await page.$eval("#user_password", (el, value) => (el.value = value), password);
     if (remember) await page.$eval("#user_remember_me", (el) => el.click());
