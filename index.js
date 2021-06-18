@@ -17,7 +17,7 @@ async function main() {
     }
     console.log(`Ok, I will try to solve prob. ${start} to prob. ${end}`);
 
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({ headless: false });
     console.log(`Browser Lauched.`);
     const page = await browser.newPage();
     console.log(`Page Opened.`);
