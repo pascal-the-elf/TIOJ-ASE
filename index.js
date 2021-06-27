@@ -90,11 +90,12 @@ async function signup(page, { email, username, nickname, password, name, school,
 }
 
 async function signin(page, { username, password, remember }) {
-    await page.goto("https://tioj.ck.tp.edu.tw/users/sign_in", {waitUntil: "load"});
-    await page.$eval("#user_username", (el, value) => (el.value = value), username);
-    await page.$eval("#user_password", (el, value) => (el.value = value), password);
-    if (remember) await page.$eval("#user_remember_me", (el) => el.click());
+    await page.goto("https://tioj.ck.tp.edu.tw/users/sign_in");
+    await page.type("#user_username", username, { delay: 81 });
+    await page.type("#user_password", password, { delay: 81 });
+    if (remember) await page.click("#user_remember_me");
     await page.$eval("input[type=submit]", (el) => el.click());
+    await page.waitForNavigation();
 }
 
 async function submit(page, { prob }) {
